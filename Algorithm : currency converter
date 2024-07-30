@@ -1,0 +1,25 @@
+Algorithm: Currency Converter
+Input:
+Source currency code (e.g., USD, EUR)
+Target currency code (e.g., USD, EUR)
+Amount to be converted
+Exchange rate (from source currency to target currency)
+Process:
+Validate input values (e.g., ensure currency codes are valid, amount is a positive number).
+Convert the amount using the exchange rate.
+Output:
+Converted amount in the target currency.
+Detailed Steps
+Initialize Variables:
+source_currency_code (string)
+target_currency_code (string)
+amount (float)
+exchange_rate (float)
+Validate Inputs:
+Check if source_currency_code and target_currency_code are valid currency codes.
+Ensure amount is a positive number.
+Ensure exchange_rate is a positive number.
+Conversion Calculation:
+Compute the converted amount using the formula:converted_amount=amount×exchange_rateconverted_amount=amount×exchange_rate
+Output Result:
+Print or return the converted_amount along with the target_currency_
