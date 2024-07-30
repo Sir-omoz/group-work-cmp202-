@@ -1,0 +1,94 @@
+// Currency.java
+public class Currency {
+    private String name;
+    private double exchangeRateToUSD; // Exchange rate to USD for simplicity
+
+    public Currency(String name, double exchangeRateToUSD) {
+        this.name = name;
+        this.exchangeRateToUSD = exchangeRateToUSD;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getExchangeRateToUSD() {
+        return exchangeRateToUSD;
+    }
+
+    public double convertTo(Currency targetCurrency, double amount) {
+        // Convert the amount to USD first, then to the target currency
+        double amountInUSD = amount / this.exchangeRateToUSD;
+        return amountInUSD * targetCurrency.getExchangeRateToUSD();
+    }
+}
+
+// CurrencyConverter.java
+public class CurrencyConverter {
+    private Currency sourceCurrency;
+    private Currency targetCurrency;
+
+    public CurrencyConverter(Currency sourceCurrency, Currency targetCurrency) {
+        this.sourceCurrency = sourceCurrency;
+        this.targetCurrency = targetCurrency;
+    }
+
+    public double convert(double amount) {
+        return sourceCurrency.convertTo(targetCurrency, amount);
+    }
+}
+
+// CurrencyConverterApp.java
+import java.util.Scanner;
+
+public class CurrencyConverterApp {
+    public static void main(String[] args) {
+        // Define some currencies
+        Currency usd = new Currency("USD", 1.0);
+        Currency eur = new Currency("EUR", 0.9);
+        Currency jpy = new Currency("JPY", 110.0);
+
+        // Create a Scanner object for user input
+        Scanner scanner = new Scanner(System.in);
+
+        // Display available currencies
+        System.out.println("Available currencies:");
+        System.out.println("1. USD");
+        System.out.println("2. EUR");
+        System.out.println("3. JPY");
+
+        // Get source currency from user
+        System.out.print("Enter source currency (1-USD, 2-EUR, 3-JPY): ");
+        int sourceChoice = scanner.nextInt();
+        Currency sourceCurrency = getCurrencyByChoice(sourceChoice, usd, eur, jpy);
+
+        // Get target currency from user
+        System.out.print("Enter target currency (1-USD, 2-EUR, 3-JPY): ");
+        int targetChoice = scanner.nextInt();
+        Currency targetCurrency = getCurrencyByChoice(targetChoice, usd, eur, jpy);
+
+        // Get the amount to convert
+        System.out.print("Enter amount to convert: ");
+        double amount = scanner.nextDouble();
+
+        // Perform the conversion
+        CurrencyConverter converter = new CurrencyConverter(sourceCurrency, targetCurrency);
+        double convertedAmount = converter.convert(amount);
+
+        // Display the result
+        System.out.printf("%.2f %s is equal to %.2f %s%n", amount, sourceCurrency.getName(), convertedAmount, targetCurrency.getName());
+    }
+
+    private static Currency getCurrencyByChoice(int choice, Currency usd, Currency eur, Currency jpy) {
+        switch (choice) {
+            case 1:
+                return usd;
+            case 2:
+                return eur;
+            case 3:
+                return jpy;
+            default:
+                throw new IllegalArgumentException("Invalid choice");
+        }
+    }
+}
